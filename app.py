@@ -6,6 +6,8 @@ import logic
 app = Flask(__name__)
 
 
+# Reto 1: consultar el siguiente turno sin retirarlo de la cola.
+# Reto 5: mostrar estadísticas de las solicitudes.
 @app.get("/")
 def inicio():
     return render_template(
@@ -20,6 +22,7 @@ def inicio():
     )
 
 
+# Reto 5: evitar registrar solicitudes que ya están pendientes.
 @app.post("/registrar")
 def registrar():
     cliente = request.form.get("cliente", "")
@@ -49,6 +52,7 @@ def deshacer():
     return redirect(url_for("inicio", mensaje=mensaje))
 
 
+# Reto 2: buscar una solicitud por ID y mostrar si está pendiente o atendida.
 @app.get("/buscar")
 def buscar():
     identificador = request.args.get("id", "")
@@ -71,6 +75,7 @@ def buscar():
     )
 
 
+# Reto 3: cancelar una solicitud pendiente usando una ruta POST.
 @app.post("/cancelar/<int:identificador>")
 def cancelar(identificador):
     solicitud = logic.cancelar_solicitud(identificador)
@@ -78,6 +83,7 @@ def cancelar(identificador):
     return redirect(url_for("inicio", mensaje=mensaje))
 
 
+# Reto 4: deshacer varias atenciones según una cantidad validada.
 @app.post("/deshacer-varias")
 def deshacer_varias():
     try:
